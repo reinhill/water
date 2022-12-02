@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "398753978340",
+    "project_id": "melon-d5a58",
+    "storage_bucket": "melon-d5a58.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:398753978340:android:7f9317c153a85a0ad1d9f1",
+        "android_client_info": {
+          "package_name": "com.example.water"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "398753978340-inh1aterv53ap0c93el9q7255lu19uha.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPprPzpu6wrlsQuPYNCEPmXZ3qmHbbH-w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "398753978340-inh1aterv53ap0c93el9q7255lu19uha.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
