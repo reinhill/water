@@ -196,6 +196,15 @@ class _LoginSState extends State<LoginS> {
                           ),
                         ),
                       ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                       Container(
+                      child: Text(error, style: TextStyle(
+                        color: cAccentColor,
+                        fontSize: 15
+                      ),),
+                    )
                     ],
                   ),
                 ),
@@ -230,7 +239,9 @@ class _LoginSState extends State<LoginS> {
                           ),
                         )
                       ],
-                    )
+                    ),
+                   
+
                   ],
                 ),
               ),
