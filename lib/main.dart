@@ -9,7 +9,6 @@ import 'package:water/screens/cookbook.dart';
 import 'package:water/screens/homescreen.dart';
 import 'package:water/screens/login.dart';
 import 'package:water/screens/onboard.dart';
-import 'package:water/screens/profilescreen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

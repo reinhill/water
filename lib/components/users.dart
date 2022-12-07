@@ -1,3 +1,4 @@
+
 class Users {
   final String id;
   final String nickname;

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:water/components/constnt.dart';
-import 'package:water/screens/profilescreen.dart';
 
 class UpdateProfile extends StatefulWidget {
   const UpdateProfile({super.key});
@@ -22,11 +21,11 @@ class _UpdateProfileState extends State<UpdateProfile> {
               color: cLightbackColor,
             ),
             onPressed: () {
-               Navigator.of(context).pop(
-                          MaterialPageRoute(
-                            builder: (context) => Profile(),
-                          ),
-                        );
+              //  Navigator.of(context).pop(
+              //             MaterialPageRoute(
+              //               builder: (context) => Profile(),
+              //             ),
+              //           );
             },
           ),
           title: Text(

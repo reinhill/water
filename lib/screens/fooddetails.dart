@@ -334,7 +334,7 @@ class _FoodDetailsState extends State<FoodDetails> {
                         color: cPrimaryColor,
                         borderRadius: BorderRadius.circular(24.0),
                       ),
-                      child: Text(details,
+                      child: Text(example,
                       style: TextStyle(
                         fontSize: 15.0,
                         color: cAccentColor,

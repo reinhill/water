@@ -44,7 +44,7 @@ dependencies:
   cloud_functions: ^4.0.5
   file_picker: ^5.2.3
   firebase_storage: ^11.0.6
-
+  snippet_coder_utils: ^1.0.12
 
 dev_dependencies:
   flutter_test:

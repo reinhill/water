@@ -1,5 +1,5 @@
  
-class NewRecipe{
+class NewRecipeOld{
 
   String? recipeName;
   String? recipeTime;
@@ -7,7 +7,7 @@ class NewRecipe{
   List<String>? ingredients;
   List<String>? procedure;
 
-  NewRecipe({
+  NewRecipeOld({
     this.recipeName, this.recipeTime, this.recipeLevel, this.ingredients, this.procedure
   });
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:water/components/constnt.dart';
 import 'package:water/screens/cookbook.dart';
+import 'package:water/screens/cookbookPrac.dart';
 import 'package:water/screens/homescreen.dart';
 import 'package:water/screens/profilescreen.dart';
 
@@ -16,7 +17,7 @@ class NavBar extends StatefulWidget {
 class _NavBarState extends State<NavBar> {
    int selectedIndex = 0;
   final pagescreens = [
-    CookBook(),
+    CookBookPrac(),
     HomeScreen(),
     Profile(),
   ];
