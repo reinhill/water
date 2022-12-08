@@ -329,8 +329,8 @@ class _UpdatefooddetailsState extends State<Updatefooddetails> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Container(
-                        child: Stack(
-                          children: [
+                        child: 
+                          
                             Row(
                               children: [
                                 Positioned(
@@ -348,8 +348,8 @@ class _UpdatefooddetailsState extends State<Updatefooddetails> {
                                 )
                               ],
                             )
-                          ],
-                        ),
+                          
+                        
                       ),
                       Padding(
                         padding: const EdgeInsets.only(right: 5, left: 5.0),
@@ -403,8 +403,7 @@ class _UpdatefooddetailsState extends State<Updatefooddetails> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                        Container(
-                        child: Stack(
-                          children: [
+                        child: 
                             Row(
                               children: [
                                 Positioned(
@@ -422,8 +421,8 @@ class _UpdatefooddetailsState extends State<Updatefooddetails> {
                                 )
                               ],
                             )
-                          ],
-                        ),
+                          
+                        
                       ),
                       Padding(
                         padding: const EdgeInsets.only(right: 5, left: 5.0),

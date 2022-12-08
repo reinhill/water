@@ -326,8 +326,7 @@ class _AddRecipePracState extends State<AddRecipePrac> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Container(
-                        child: Stack(
-                          children: [
+                        child:
                             Row(
                               children: [
                                 Positioned(
@@ -345,8 +344,8 @@ class _AddRecipePracState extends State<AddRecipePrac> {
                                 )
                               ],
                             )
-                          ],
-                        ),
+                          
+                        
                       ),
                       Padding(
                         padding: const EdgeInsets.only(right: 5, left: 5.0),
@@ -401,8 +400,7 @@ class _AddRecipePracState extends State<AddRecipePrac> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Container(
-                        child: Stack(
-                          children: [
+                        child: 
                             Row(
                               children: [
                                 Positioned(
@@ -420,8 +418,8 @@ class _AddRecipePracState extends State<AddRecipePrac> {
                                 )
                               ],
                             )
-                          ],
-                        ),
+                          
+                        
                       ),
                       Padding(
                         padding: const EdgeInsets.only(right: 5, left: 5.0),
@@ -551,45 +549,8 @@ class _AddRecipePracState extends State<AddRecipePrac> {
         }
       });
 
-  Widget _procedureContainer() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 15.0, top: 30.0, bottom: 0.0),
-          child: Text(
-            "Procedure(s)",
-            textAlign: TextAlign.left,
-            style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.normal,
-                color: cAccentColor),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _ingredientsContainer() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 15.0, top: 30.0, bottom: 0.0),
-          child: Text(
-            "Ingredient(s)",
-            textAlign: TextAlign.left,
-            style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.normal,
-                color: cAccentColor),
-          ),
-        ),
-      ],
-    );
-  }
+ 
+  
 
   Widget buildpicker(controller, listitems) => SizedBox(
         height: 200,
