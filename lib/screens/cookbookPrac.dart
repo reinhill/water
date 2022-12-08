@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:water/components/constnt.dart';
 import 'package:water/components/users.dart';
 import 'package:water/screens/addrecipe.dart';
+import 'package:water/screens/addrecipePrac.dart';
 import 'package:water/screens/fooddetailsPrac.dart';
 
 import '../components/newrecipepost.dart';
@@ -31,7 +32,7 @@ class _CookBookPracState extends State<CookBookPrac> {
         //   },
         // ),
         title: const Text(
-          'My Cookbook',
+          'Cookbook',
           style: TextStyle(
             fontWeight: FontWeight.w900,
             color: cLightbackColor,
@@ -47,7 +48,7 @@ class _CookBookPracState extends State<CookBookPrac> {
             onPressed: () {
                Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) => AddRecipe(),
+                            builder: (context) => AddRecipePrac(),
                           ),
                         );
             },
@@ -103,7 +104,16 @@ class _CookBookPracState extends State<CookBookPrac> {
    Container(
         height: 240,
         child: Stack(
+          clipBehavior: Clip.none,
           children: [
+            Positioned(
+              top: -12.0,
+              left:-5.0,
+              child: Image.asset("assets/images/coriander.png",
+                  height: 95, fit: BoxFit.contain),
+            ),
+            
+            
             Positioned(
                 top: 25,
                 left: 25,
@@ -249,6 +259,7 @@ class _CookBookPracState extends State<CookBookPrac> {
                           ),
                         ],
                       ),
+                      
                     ],
                   ),
                 ))

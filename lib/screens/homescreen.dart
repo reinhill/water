@@ -77,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       TextSpan(
                         children: [
                           TextSpan(
-                            text: "Hi Catherine",
+                            text: "Welcome!",
                             style: TextStyle(
                               fontSize: 28.0,
                               fontWeight: FontWeight.w800,
@@ -108,7 +108,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Stack(
                           children: [
                             Image.asset(
-                              "assets/images/avatar.png",
+                              "assets/images/cupcake.png",
                               height: 50,
                               width: 50,
                             ),
@@ -242,11 +242,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   fontSize: 22.0,
                   fontWeight: FontWeight.w800,
                   color: cAccentColor
-                )), 
-                Text('See All',
-                style: TextStyle(
-                  color: cAccentColor,
-                  fontSize: 18.0,),), 
+                )),  
               ],),
             ),
       

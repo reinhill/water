@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:water/components/constnt.dart';
+import 'package:water/screens/profilescreen.dart';
 
 class UpdateProfile extends StatefulWidget {
-  const UpdateProfile({super.key});
+  const UpdateProfile({super.key, 
+  });
+
+  
 
   @override
   State<UpdateProfile> createState() => _UpdateProfileState();
@@ -21,11 +25,11 @@ class _UpdateProfileState extends State<UpdateProfile> {
               color: cLightbackColor,
             ),
             onPressed: () {
-              //  Navigator.of(context).pop(
-              //             MaterialPageRoute(
-              //               builder: (context) => Profile(),
-              //             ),
-              //           );
+               Navigator.of(context).pop(
+                          MaterialPageRoute(
+                            builder: (context) => Profile(),
+                          ),
+                        );
             },
           ),
           title: Text(
@@ -70,7 +74,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                                     minRadius: 70.0,
                                     backgroundColor: cAccentColor,
                                     backgroundImage: AssetImage(
-                                      "assets/images/avatar.png",
+                                      "assets/images/cupcake.png",
                                     ),
                                   ),
                                 ),

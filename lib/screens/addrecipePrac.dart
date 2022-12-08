@@ -5,21 +5,20 @@ import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:snippet_coder_utils/FormHelper.dart';
 import 'package:water/components/constnt.dart';
 import 'package:water/components/newrecipe.dart';
 import 'package:water/components/newrecipepost.dart';
 import 'package:water/screens/cookbook.dart';
 
-class Updatefooddetails extends StatefulWidget {
-  const Updatefooddetails({super.key, required this.newrecipePost});
-
-  final NewRecipePost newrecipePost;
+class AddRecipePrac extends StatefulWidget {
+  const AddRecipePrac({super.key});
 
   @override
-  State<Updatefooddetails> createState() => _UpdatefooddetailsState();
+  State<AddRecipePrac> createState() => _AddRecipePracState();
 }
 
-class _UpdatefooddetailsState extends State<Updatefooddetails> {
+class _AddRecipePracState extends State<AddRecipePrac> {
   GlobalKey<FormState> globalKey = GlobalKey<FormState>();
   NewRecipeOld newRecipe = NewRecipeOld();
 
@@ -32,8 +31,6 @@ class _UpdatefooddetailsState extends State<Updatefooddetails> {
   late TextEditingController newrecipelevelcontroller;
   late TextEditingController newrecipeingredientscontroller;
   late TextEditingController newrecipeprocedurecontroller;
-  late String imgUrl;
-  late String error;
   PlatformFile? pickedFile;
   UploadTask? uploadTask;
 
@@ -48,26 +45,19 @@ class _UpdatefooddetailsState extends State<Updatefooddetails> {
 
   Future uploadFile() async {
     final path = 'newRecipe/${pickedFile!.name}';
-    print('update path Link: $path');
     final file = File(pickedFile!.path!);
 
     final ref = FirebaseStorage.instance.ref().child(path);
 
-    try {
-      setState(() {
-        uploadTask = ref.putFile(file);
-      });
-    } on FirebaseException catch (e) {
-      setState(() {
-        error = e.message.toString();
-      });
-    }
+    setState(() {
+      uploadTask = ref.putFile(file);
+    });
 
     final snapshot = await uploadTask!.whenComplete(() {});
     final urlDownload = await snapshot.ref.getDownloadURL();
-    print('update Download Link: $urlDownload');
+    print('Download Link: $urlDownload');
 
-    updateNewRecipe(widget.newrecipePost.newrecipepost_id ,urlDownload);
+    createRecipe(urlDownload);
 
     setState(() {
       uploadTask = null;
@@ -78,25 +68,12 @@ class _UpdatefooddetailsState extends State<Updatefooddetails> {
   void initState() {
     super.initState();
 
-    newrecipeimgcontroller =
-        TextEditingController(text: widget.newrecipePost.newrecipeimg);
-    newrecipenamecontroller =
-        TextEditingController(text: widget.newrecipePost.newrecipename);
-    newrecipetimecontroller =
-        TextEditingController(text: widget.newrecipePost.newrecipetime);
-    newrecipelevelcontroller =
-        TextEditingController(text: widget.newrecipePost.newrecipelevel);
-    newrecipeingredientscontroller =
-        TextEditingController(text: widget.newrecipePost.newrecipeingredients);
-    newrecipeprocedurecontroller =
-        TextEditingController(text: widget.newrecipePost.newrecipeprocedure);
-    imgUrl = widget.newrecipePost.newrecipeimg;
-    error = "";
-
-    newRecipe.ingredients = List<String>.empty(growable: true);
-    newRecipe.ingredients!.add("");
-    newRecipe.procedure = List<String>.empty(growable: true);
-    newRecipe.procedure!.add("");
+    newrecipeimgcontroller = TextEditingController();
+    newrecipenamecontroller = TextEditingController();
+    newrecipetimecontroller = TextEditingController();
+    newrecipelevelcontroller = TextEditingController();
+    newrecipeingredientscontroller = TextEditingController();
+    newrecipeprocedurecontroller = TextEditingController();
   }
 
   @override
@@ -123,11 +100,15 @@ class _UpdatefooddetailsState extends State<Updatefooddetails> {
               color: cLightbackColor,
             ),
             onPressed: () {
-              Navigator.of(context).pop();
+              Navigator.of(context).pop(
+                MaterialPageRoute(
+                  builder: (context) => CookBook(),
+                ),
+              );
             },
           ),
           title: Text(
-            'Update Recipe ',
+            'Create Recipe ',
             style: TextStyle(
               fontWeight: FontWeight.w900,
               color: cLightbackColor,
@@ -148,7 +129,7 @@ class _UpdatefooddetailsState extends State<Updatefooddetails> {
                     width: 300,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15.0),
-                        color: cLightFontColor.withOpacity(0.5)),
+                        color: cAccentColor.withOpacity(0.5)),
                     child: Stack(
                       clipBehavior: Clip.none,
                       children: [
@@ -164,25 +145,41 @@ class _UpdatefooddetailsState extends State<Updatefooddetails> {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(5.0),
                                 ),
-                               
+                                child: Center(
+                                  child: (pickedFile == null)
+                                      ? imgNotExist()
+                                      : imgExist(),
+                                ),
                               ),
                             ),
                           ],
                         ),
                         Column(
                           children: [
-                            Container(
-                              height: 400,
-                              width: 300,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15.0),
-                                color: cAccentColor.withOpacity(0.5),
-                              ),
-                               child: Center(
-                                  child: (pickedFile == null)
-                                      ? checkImgVal()
-                                      : imgExist(),
-                                ),
+                            GestureDetector(
+                              onTap: () {
+                                selectFile();
+                              },
+                              child: (pickedFile == null)
+                                  ? Container(
+                                      height: 40.0,
+                                      width: 140,
+                                      padding: EdgeInsets.all(10.0),
+                                      margin: EdgeInsets.only(
+                                          top: 230, right: 20.0, left: 80.0),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(30.0),
+                                          color: cAccentColor),
+                                      child: Text(
+                                        "Upload",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 15.0),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    )
+                                  : Center(),
                             ),
                           ],
                         ),
@@ -374,7 +371,8 @@ class _UpdatefooddetailsState extends State<Updatefooddetails> {
                           ),
                         ),
                       ),
-                      
+
+
                     ],
                   ),
                 ),
@@ -402,7 +400,7 @@ class _UpdatefooddetailsState extends State<Updatefooddetails> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                       Container(
+                      Container(
                         child: Stack(
                           children: [
                             Row(
@@ -448,22 +446,20 @@ class _UpdatefooddetailsState extends State<Updatefooddetails> {
                           ),
                         ),
                       ),
-                      
                     ],
                   ),
                 ),
               ),
             ),
           ),
-          
           Container(
             height: 100,
             padding: const EdgeInsets.all(20),
             child: ElevatedButton(
               onPressed: () {
-                (pickedFile != null)
-                          ? uploadFile()
-                          : updateNoFile(widget.newrecipePost.newrecipepost_id);
+                uploadFile();
+
+                print(newRecipe.toJson());
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: cAccentColor,
@@ -472,7 +468,7 @@ class _UpdatefooddetailsState extends State<Updatefooddetails> {
                     borderRadius: BorderRadius.circular(30)),
               ),
               child: const Text(
-                'Update Recipe',
+                'Save Recipe',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -482,60 +478,43 @@ class _UpdatefooddetailsState extends State<Updatefooddetails> {
           ),
         ]));
   }
-    Widget imgExist() => Image.file(
+
+  Widget imgExist() => Image.file(
         File(pickedFile!.path!),
-       height: 380,
-       width: 280,
-        fit: BoxFit.cover,
+        height: 400,
+        width: 280,
+        fit: BoxFit.fill,
       );
 
-  Widget imgNotExist() => Image.network(
-        widget.newrecipePost.newrecipeimg,
-       height: 380,
-       width: 280,
-        fit: BoxFit.cover,
-      );
+  Widget imgNotExist() => Icon(Icons.upload_file);
 
-  Widget imgNotExistBlank() => Image.asset(
-        'assets/images/no-image.png',
-        height: 380,
-       width: 280,
-        fit: BoxFit.cover,
-      );
+  Future createRecipe(urlDownload) async {
+    final docUser = FirebaseFirestore.instance.collection('NewRecipe').doc();
 
-  Widget checkImgVal() {
-    return (widget.newrecipePost.newrecipeimg == '-') ? imgNotExistBlank() : imgNotExist();
-  }
+    final newRecipe = NewRecipePost(
+      newrecipepost_id: docUser.id,
+      newrecipename: newrecipenamecontroller.text,
+      newrecipetime: newrecipetimecontroller.text,
+      newrecipelevel: newrecipelevelcontroller.text,
+      newrecipeingredients: newrecipeingredientscontroller.text,
+      newrecipeprocedure: newrecipeprocedurecontroller.text,
+      newrecipeimg: urlDownload,
+      isLiked: false,
+    );
 
+    final json = newRecipe.toJson();
+    await docUser.set(json);
 
-  Future updateNewRecipe(String id, String image) async {
-    final docUser = FirebaseFirestore.instance.collection('NewRecipe').doc(id);
-    await docUser.update({
-      'newrecipename': newrecipenamecontroller.text,
-      'newrecipetime': newrecipetimecontroller.text,
-      'newrecipelevel': newrecipelevelcontroller.text,
-      'newrecipeingredients': newrecipeingredientscontroller.text,
-      'newrecipeprocedure': newrecipeprocedurecontroller.text,
-      'newrecipeimg': image,
+    setState(() {
+      newrecipenamecontroller.text = "";
+      newrecipetimecontroller.text = "";
+      newrecipelevelcontroller.text = "";
+      newrecipeingredientscontroller.text = "";
+      newrecipeprocedurecontroller.text = "";
+      newrecipelevelcontroller.text = "";
+      pickedFile = null;
     });
-
-    Navigator.pop(context);
   }
-
-  Future updateNoFile(String id) async {
-    final docUser = FirebaseFirestore.instance.collection('NewRecipe').doc(id);
-    await docUser.update({
-      'newrecipename': newrecipenamecontroller.text,
-      'newrecipetime': newrecipetimecontroller.text,
-      'newrecipelevel': newrecipelevelcontroller.text,
-      'newrecipeingredients': newrecipeingredientscontroller.text,
-      'newrecipeprocedure': newrecipeprocedurecontroller.text,
-    });
-
-    Navigator.pop(context);
-  }
-
-  
 
   Widget buildProgress() => StreamBuilder<TaskSnapshot>(
       stream: uploadTask?.snapshotEvents,
@@ -572,11 +551,45 @@ class _UpdatefooddetailsState extends State<Updatefooddetails> {
         }
       });
 
-  
+  Widget _procedureContainer() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 15.0, top: 30.0, bottom: 0.0),
+          child: Text(
+            "Procedure(s)",
+            textAlign: TextAlign.left,
+            style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.normal,
+                color: cAccentColor),
+          ),
+        ),
+      ],
+    );
+  }
 
-
- 
- 
+  Widget _ingredientsContainer() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 15.0, top: 30.0, bottom: 0.0),
+          child: Text(
+            "Ingredient(s)",
+            textAlign: TextAlign.left,
+            style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.normal,
+                color: cAccentColor),
+          ),
+        ),
+      ],
+    );
+  }
 
   Widget buildpicker(controller, listitems) => SizedBox(
         height: 200,
@@ -601,6 +614,4 @@ class _UpdatefooddetailsState extends State<Updatefooddetails> {
           }),
         ),
       );
-
-
 }

@@ -5,13 +5,15 @@ class Users {
   final String password;
   final String email;
   final String age;
+  final String image;
 
   Users({
     required this.id,
     required this.nickname,
     required this.password,
     required this.email,
-    required this.age
+    required this.age,
+    required this.image,
     
 
   });
@@ -22,6 +24,7 @@ class Users {
         'name': nickname,
         'email': email,
         'age': age,
+        'image': image,
       };
 
   static Users fromJson(Map<String, dynamic> json) => Users(
@@ -30,5 +33,6 @@ class Users {
         password: json['password'],
         email: json['email'],
         age: json['age'],
+        image: json['image'],
       );
 }

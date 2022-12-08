@@ -2,10 +2,11 @@
 import 'package:flutter/material.dart';
 import 'package:water/components/bottomnavbar.dart';
 import 'package:water/components/constnt.dart';
+import 'package:water/components/users.dart';
 
 
 class Login extends StatefulWidget {
-  const Login({super.key});
+  const Login({super.key, });
 
   @override
   State<Login> createState() => _LoginState();
@@ -244,7 +245,7 @@ class _LoginState extends State<Login> {
                     );
   }
 
-  Widget buildButtonHalfContainer(bool showShadow) {
+  Widget buildButtonHalfContainer(bool showShadow, ) {
     return Positioned(
             top: isSignupScreen? 650 : 490,
             right: 0,
@@ -254,7 +255,7 @@ class _LoginState extends State<Login> {
                 onTap: () {
                   Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) =>  NavBar(),
+                        builder: (context) =>  NavBar()
                       ),
                     );
                 },
