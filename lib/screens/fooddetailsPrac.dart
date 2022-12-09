@@ -527,6 +527,7 @@ class _FoodDetailsPracState extends State<FoodDetailsPrac> {
           CupertinoActionSheetAction(
             onPressed: () {
               deleteRecipe(id);
+              Navigator.pop(context);
             },
             child: const Text('Continue', 
             style: TextStyle(

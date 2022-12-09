@@ -463,6 +463,7 @@ class _UpdatefooddetailsState extends State<Updatefooddetails> {
                 (pickedFile != null)
                           ? uploadFile()
                           : updateNoFile(widget.newrecipePost.newrecipepost_id);
+                          Navigator.pop(context);
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: cAccentColor,

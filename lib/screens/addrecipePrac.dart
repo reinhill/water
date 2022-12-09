@@ -456,7 +456,7 @@ class _AddRecipePracState extends State<AddRecipePrac> {
             child: ElevatedButton(
               onPressed: () {
                 uploadFile();
-
+                Navigator.pop(context);
                 print(newRecipe.toJson());
               },
               style: ElevatedButton.styleFrom(

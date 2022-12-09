@@ -432,7 +432,12 @@ class _SignUpSState extends State<SignUpS> {
             },
             child: GestureDetector(
               onTap: () {
-                registerUser();
+                    if(emailcontroller.text=='' || nicknamecontroller.text=='' || passwordcontroller.text=='' || agecontroller.text == ''){
+
+                    }
+                    else{
+                      registerUser();
+                    }
               },
               child: Container(
                 height: 90,
@@ -475,4 +480,7 @@ class _SignUpSState extends State<SignUpS> {
           ),
         ));
   }
+  // void showsnackBar(
+  //   String msg
+  // ) => SnackBar(content: content)
 }
