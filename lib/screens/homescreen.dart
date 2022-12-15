@@ -15,15 +15,6 @@ class _HomeScreenState extends State<HomeScreen> {
   int selectedIndex = 0;
   int currentIndex = 0;
 
-  // final pagescreens = [
-  //   HomeScreen(),
-  //   Profile(),
-  //   CookBook(),
-  //   GroceryList()
-  // ];
-  
-  
-
   List categoryList = [ 
     {"image" : "assets/images/garlicshrimpspag.png", 
      "name" : "Dinner", },
@@ -321,7 +312,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           dinnerList[index]["image"],
                           dinnerList[index]["name"],
                           dinnerList[index]["time"],
-                          dinnerList[index]["level"]
+                          dinnerList[index]["level"],
+                          dinnerList[index]["ingredients"],
+                           dinnerList[index]["procedure"],
+                          
                         ),
                         ),
                         ),

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,7 @@ class AddRecipe extends StatefulWidget {
 }
 
 class _AddRecipeState extends State<AddRecipe> {
+  final users = FirebaseAuth.instance.currentUser!;
   GlobalKey<FormState> globalKey = GlobalKey<FormState>();
   NewRecipeOld newRecipe = NewRecipeOld();
 
@@ -31,6 +33,7 @@ class _AddRecipeState extends State<AddRecipe> {
   late TextEditingController newrecipenamecontroller;
   late TextEditingController newrecipetimecontroller;
   late TextEditingController newrecipelevelcontroller;
+  late TextEditingController rateController;
   late TextEditingController newrecipeingredientscontroller;
   late TextEditingController newrecipeprocedurecontroller;
   PlatformFile? pickedFile;
@@ -73,6 +76,7 @@ class _AddRecipeState extends State<AddRecipe> {
     newrecipenamecontroller = TextEditingController();
     newrecipetimecontroller = TextEditingController();
     newrecipelevelcontroller = TextEditingController();
+    rateController = TextEditingController();
     newrecipeingredientscontroller = TextEditingController();
     newrecipeprocedurecontroller = TextEditingController();
 
@@ -428,14 +432,22 @@ class _AddRecipeState extends State<AddRecipe> {
 
   Widget imgNotExist() => Icon(Icons.upload_file);
 
+  
   Future createRecipe(urlDownload) async {
-    final docUser = FirebaseFirestore.instance.collection('NewRecipe').doc();
+    final docUser = FirebaseFirestore.instance
+    .collection('NewRecipe')
+    .doc(users.uid)
+    .collection('userNewRecipePost')
+    .doc();
+
 
     final newRecipe = NewRecipePost(
       newrecipepost_id: docUser.id,
+      userId: users.uid,
       newrecipename: newrecipenamecontroller.text,
       newrecipetime: newrecipetimecontroller.text,
       newrecipelevel: newrecipelevelcontroller.text,
+      rate: int.parse(rateController.text),
       newrecipeingredients: newrecipeingredientscontroller.text,
       newrecipeprocedure: newrecipeprocedurecontroller.text,
       newrecipeimg: urlDownload,
@@ -449,6 +461,7 @@ class _AddRecipeState extends State<AddRecipe> {
       newrecipenamecontroller.text = "";
       newrecipetimecontroller.text = "";
       newrecipelevelcontroller.text = "";
+      rateController.text = "";
       newrecipeingredientscontroller.text = "";
       newrecipeprocedurecontroller.text = "";
       newrecipelevelcontroller.text = "";

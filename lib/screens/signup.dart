@@ -14,13 +14,16 @@ class SignUpS extends StatefulWidget {
 }
 
 class _SignUpSState extends State<SignUpS> {
-
+  final _formKey = GlobalKey<FormState>();
   late TextEditingController nicknamecontroller;
   late TextEditingController emailcontroller;
   late TextEditingController passwordcontroller;
   late TextEditingController agecontroller;
 
   late String error;
+  bool _obscureText = true;
+  bool _isobscureText = true;
+  bool visible = false; 
 
 
 
@@ -111,21 +114,21 @@ class _SignUpSState extends State<SignUpS> {
               children: 
                 [
                   Positioned(
-                top: 158.0,
+                top: 125.0,
                 left: 315.0,
                 child: Image.asset("assets/images/coriander.png",
                     height: 120, fit: BoxFit.contain),
               ),
               Positioned(
-                top: 617.0,
+                top: 715.0,
                 right: 308.0,
                 child: Image.asset("assets/images/coriander.png",
                     height: 120, fit: BoxFit.contain),
               ),
                   Positioned(
-                  top: 220,
+                  top: 180,
                   child: Container(
-                    height: 460,
+                    height: 600,
                     padding: EdgeInsets.all(20),
                     width: MediaQuery.of(context).size.width - 40,
                     margin: EdgeInsets.symmetric(horizontal: 20),
@@ -137,190 +140,253 @@ class _SignUpSState extends State<SignUpS> {
                       ],
                     ),
                     child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      child: SafeArea(
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
                             children: [
-                              GestureDetector(
-                                onTap: () {
-                                  
-                                },
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      'SIGN UP',
-                                      style: TextStyle(
-                                        fontSize: 25,
-                                        fontWeight: FontWeight.bold,
-                                        color:  cAccentColor,
-                                        letterSpacing: 2
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    children: 
+                                      [Column(
+                                        children: [
+                                          Text(
+                                            'SIGN UP',
+                                            style: TextStyle(
+                                              fontSize: 25,
+                                              fontWeight: FontWeight.bold,
+                                              color:  cAccentColor,
+                                              letterSpacing: 2
+                                            ),
+                                          ),
+                                          
+                                        ],
+                                      ),
+                                    ],
+                                 
+                                
+                              ),
+                              
+                              Padding(
+                                padding: EdgeInsets.only(top: 25.0, right: 10.0, left: 10.0),
+                                child: TextFormField(
+                                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                                  validator: validateNickname,
+                                  controller: nicknamecontroller,
+                                  decoration: InputDecoration(
+                                    errorStyle: TextStyle(
+                                      fontSize: 13, color: Colors.red
+                                    ),
+                                    errorBorder:  OutlineInputBorder(
+                                      borderSide: BorderSide(color: Colors.red),
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(35.0),
                                       ),
                                     ),
-                                    
-                                  ],
+                                    focusedErrorBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color: Colors.red),
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(35.0),
+                                      ),
+                                    ),
+                                    prefixIcon: Icon(
+                                      Icons.face_outlined,
+                                      color: cAccentColor,
+                                      size: 30,
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color: cAccentColor),
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(35.0),
+                                      ),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color: cAccentColor),
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(35.0),
+                                      ),
+                                    ),
+                                    contentPadding: EdgeInsets.all(10),
+                                    labelText: "Nickname",
+                                    labelStyle:
+                                        TextStyle(fontSize: 17, color: cAccentColor),
+                                  ),
                                 ),
                               ),
+                              Container(
+                                padding: EdgeInsets.only(top: 10),
+                                child: Padding(
+                                  padding: EdgeInsets.all(10.0),
+                                  child: TextFormField(
+                                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                                  validator: validateEmail,
+                                    controller: emailcontroller,
+                                    decoration: InputDecoration(
+                                      errorStyle: TextStyle(
+                                      fontSize: 13, color: Colors.red
+                                    ),
+                                    errorBorder:  OutlineInputBorder(
+                                      borderSide: BorderSide(color: Colors.red),
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(35.0),
+                                      ),
+                                    ),
+                                    focusedErrorBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color: Colors.red),
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(35.0),
+                                      ),
+                                    ),
+                                      prefixIcon: Icon(
+                                        Icons.email_outlined,
+                                        color: cAccentColor,
+                                      size: 28,
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(color: cAccentColor),
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(35.0),
+                                        ),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(color: cAccentColor),
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(35.0),
+                                        ),
+                                      ),
+                                      contentPadding: EdgeInsets.all(10),
+                                      labelText: "Email",
+                                      labelStyle:
+                                          TextStyle(fontSize: 17, color: cAccentColor),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(top: 10.0, right: 10.0, left: 10.0),
+                                child: TextFormField(
+                                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                                  validator: validatePassword,
+                                  obscureText: _obscureText,
+                                  controller: passwordcontroller,
+                                  decoration: InputDecoration(
+                                    errorStyle: TextStyle(
+                                      fontSize: 13, color: Colors.red
+                                    ),
+                                    errorBorder:  OutlineInputBorder(
+                                      borderSide: BorderSide(color: Colors.red),
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(35.0),
+                                      ),
+                                    ),
+                                    focusedErrorBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color: Colors.red),
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(35.0),
+                                      ),
+                                    ),
+                                    prefixIcon: Icon(
+                                      Icons.fingerprint_outlined,
+                                      color: cAccentColor,
+                                      size: 30,
+                                    ),
+                                    suffixIcon: IconButton(onPressed: (){ 
+                                    setState(() {
+                                      _isobscureText = !_isobscureText;
+                                      _obscureText = !_obscureText;
+                                    });
+                                   }, icon: Icon(_isobscureText? Icons.visibility_off : Icons.visibility),
+                                   color: cAccentColor),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color: cAccentColor),
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(35.0),
+                                      ),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color: cAccentColor),
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(35.0),
+                                      ),
+                                    ),
+                                    contentPadding: EdgeInsets.all(10),
+                                    labelText: "Password",
+                                    labelStyle:
+                                        TextStyle(fontSize: 17, color: cAccentColor),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(top: 20.0, right: 10.0, left: 10.0),
+                                child: TextFormField(
+                                   autovalidateMode: AutovalidateMode.onUserInteraction,
+                                  validator: validateAge,
+                                  controller: agecontroller,
+                                  decoration: InputDecoration(
+                                     errorStyle: TextStyle(
+                                      fontSize: 13, color: Colors.red
+                                    ),
+                                    errorBorder:  OutlineInputBorder(
+                                      borderSide: BorderSide(color: Colors.red),
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(35.0),
+                                      ),
+                                    ),
+                                    focusedErrorBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color: Colors.red),
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(35.0),
+                                      ),
+                                    ),
+                                    prefixIcon: Icon(
+                                      Icons.numbers_outlined,
+                                      color: cAccentColor,
+                                      size: 30,
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color: cAccentColor),
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(35.0),
+                                      ),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color: cAccentColor),
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(35.0),
+                                      ),
+                                    ),
+                                    contentPadding: EdgeInsets.all(10),
+                                    labelText: "Age",
+                                    labelStyle:
+                                        TextStyle(fontSize: 17, color: cAccentColor),
+                                  ),
+                                ),
+                              ),
+                              
+                                  Container(
+                                    width: 250,
+                                    margin: EdgeInsets.only(top: 75),
+                                    child: RichText(
+                                      textAlign: TextAlign.center,
+                                      text: TextSpan(
+                                        text: "By Pressing 'Submit' you agree to our",
+                                        style: TextStyle(
+                                          color: cDarkColor,
+                                        ),
+                                        children: [
+                                          TextSpan(
+                                            text: " terms & conditions",
+                                            style: TextStyle(
+                                              color: cAccentColor,
+                                              fontWeight: FontWeight.bold
+                                            )
+                                          )
+                                        ]
+                                      )),
+                                  )
                             ],
                           ),
-                          
-                          Padding(
-                            padding: EdgeInsets.only(top: 25.0, right: 10.0, left: 10.0),
-                            child: TextField(
-                              controller: nicknamecontroller,
-                              decoration: InputDecoration(
-                                prefixIcon: Icon(
-                                  Icons.face_outlined,
-                                  color: cAccentColor,
-                                  size: 30,
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: cAccentColor),
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(35.0),
-                                  ),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: cAccentColor),
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(35.0),
-                                  ),
-                                ),
-                                contentPadding: EdgeInsets.all(10),
-                                labelText: "Nickname",
-                                labelStyle:
-                                    TextStyle(fontSize: 17, color: cAccentColor),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.only(top: 10),
-                            child: Padding(
-                              padding: EdgeInsets.all(10.0),
-                              child: TextField(
-                                controller: emailcontroller,
-                                decoration: InputDecoration(
-                                  prefixIcon: Icon(
-                                    Icons.email_outlined,
-                                    color: cAccentColor,
-                                  size: 28,
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: cAccentColor),
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(35.0),
-                                    ),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: cAccentColor),
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(35.0),
-                                    ),
-                                  ),
-                                  contentPadding: EdgeInsets.all(10),
-                                  labelText: "Email",
-                                  labelStyle:
-                                      TextStyle(fontSize: 17, color: cAccentColor),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 10.0, right: 10.0, left: 10.0),
-                            child: TextField(
-                              obscureText: true,
-                              controller: passwordcontroller,
-                              decoration: InputDecoration(
-                                prefixIcon: Icon(
-                                  Icons.fingerprint_outlined,
-                                  color: cAccentColor,
-                                  size: 30,
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: cAccentColor),
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(35.0),
-                                  ),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: cAccentColor),
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(35.0),
-                                  ),
-                                ),
-                                contentPadding: EdgeInsets.all(10),
-                                labelText: "Password",
-                                labelStyle:
-                                    TextStyle(fontSize: 17, color: cAccentColor),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 20.0, right: 10.0, left: 10.0),
-                            child: TextField(
-                              controller: agecontroller,
-                              decoration: InputDecoration(
-                                prefixIcon: Icon(
-                                  Icons.numbers_outlined,
-                                  color: cAccentColor,
-                                  size: 30,
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: cAccentColor),
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(35.0),
-                                  ),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: cAccentColor),
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(35.0),
-                                  ),
-                                ),
-                                contentPadding: EdgeInsets.all(10),
-                                labelText: "Age",
-                                labelStyle:
-                                    TextStyle(fontSize: 17, color: cAccentColor),
-                              ),
-                            ),
-                          ),
-                           SizedBox(
-                                height: 20,
-                              ),
-                           Padding(
-                          padding:
-                              const EdgeInsets.only(right: 15.0, left: 15.0),
-                          child: Container(
-                            child: Text(error,
-                                style: TextStyle(
-                                    color: cAccentColor, fontSize: 17),
-                                textAlign: TextAlign.center),
-                          ),
                         ),
-
-                          
-                              Container(
-                                width: 250,
-                                margin: EdgeInsets.only(top: 20),
-                                child: RichText(
-                                  textAlign: TextAlign.center,
-                                  text: TextSpan(
-                                    text: "By Pressing 'Submit' you agree to our",
-                                    style: TextStyle(
-                                      color: cDarkColor,
-                                    ),
-                                    children: [
-                                      TextSpan(
-                                        text: " terms & conditions",
-                                        style: TextStyle(
-                                          color: cAccentColor,
-                                          fontWeight: FontWeight.bold
-                                        )
-                                      )
-                                    ]
-                                  )),
-                              )
-                        ],
                       ),
                     ),
                   ),
@@ -385,11 +451,75 @@ class _SignUpSState extends State<SignUpS> {
 
       setState(() {
         error = "";
+         final snackbar = SnackBar(
+                   duration: Duration(seconds: 3),
+                   margin: const EdgeInsets.only(bottom: 80),
+                   behavior: SnackBarBehavior.floating,
+                   backgroundColor: Colors.transparent,
+                   elevation: 0,
+                   content: Container(
+                     height: 60,
+                    width: 40,
+                    padding: EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      color: Colors.green[300]
+                    ),
+                     child: Row (
+                      children: [
+                        SizedBox(height: 10),
+                      Expanded (
+                        child: Text ('Register successfully',style: TextStyle(color: Colors.white,fontSize: 15)),
+                      ),
+                      SizedBox(width:5),
+
+                      Icon(Icons.verified,
+                      color: Colors.white,
+                      ),
+                      ]
+                      ),
+                    
+                   )
+                    
+                   );
+                   ScaffoldMessenger.of(context).showSnackBar(snackbar);
       });
     } on FirebaseAuthException catch (e) {
       print(e);
       setState(() {
         error = e.message.toString();
+        final snackbar = SnackBar(
+                   duration: Duration(seconds: 3),
+                   margin: const EdgeInsets.only(bottom: 0),
+                   behavior: SnackBarBehavior.floating,
+                   backgroundColor: Colors.transparent,
+                   elevation: 0,
+                   content: Container(
+                    height: 60,
+                    width: 40,
+                    padding: EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      color: Colors.red[400]
+                    ),
+                     child: Row (
+                      children: [
+                          SizedBox(height: 10),
+                      Expanded (
+                        child: Text ('Failed to sign up',style: TextStyle(color: Colors.white,fontSize: 15)),
+                      ),
+                      SizedBox(width:5),
+
+                      Icon(Icons.verified,
+                      color: Colors.white,
+                      ),
+                      ]
+                      ),
+                    
+                   )
+                    
+                   );
+                   ScaffoldMessenger.of(context).showSnackBar(snackbar);
       });
     }
     Navigator.pop(context);
@@ -418,7 +548,7 @@ class _SignUpSState extends State<SignUpS> {
 
   Widget buildButtonHalfContainer(bool showShadow) {
     return Positioned(
-        top: 635,
+        top: 730,
         right: 0,
         left: 0,
         child: Center(
@@ -432,12 +562,11 @@ class _SignUpSState extends State<SignUpS> {
             },
             child: GestureDetector(
               onTap: () {
-                    if(emailcontroller.text=='' || nicknamecontroller.text=='' || passwordcontroller.text=='' || agecontroller.text == ''){
-
-                    }
-                    else{
-                      registerUser();
-                    }
+                    {
+                  if (_formKey.currentState!.validate()) {
+                    registerUser();
+                  }
+                }
               },
               child: Container(
                 height: 90,
@@ -480,7 +609,41 @@ class _SignUpSState extends State<SignUpS> {
           ),
         ));
   }
-  // void showsnackBar(
-  //   String msg
-  // ) => SnackBar(content: content)
+   String? validateEmail(String? value) {
+  String pattern =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex = RegExp(pattern);
+    if (!regex.hasMatch(value!))
+      return 'Please enter valid email';
+    else
+      return null;
+  }
+  String? validateNickname(String? value) {
+   if (value!.isEmpty){
+    return 'Please enter nickname';
+    }
+    if (value.length < 4) {
+      return "nickname must be more than 2 charater";
+    }
+      
+    else
+      return null;
+  }
+ String? validatePassword(String? value) {
+    if (value!.isEmpty){
+    return 'Please enter password';
+    }
+    if (value.length < 6) {
+      return "password should be at least 6 characters";
+    }
+      
+    else
+      return null;
+  }
+  String? validateAge(String? value) {
+    if (value!.isEmpty)
+      return 'Please enter age';
+    else
+      return null;
+  }
 }

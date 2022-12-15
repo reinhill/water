@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:water/components/constnt.dart';
 import 'package:water/screens/cookbook.dart';
 import 'package:water/screens/cookbookPrac.dart';
+import 'package:water/screens/fav.dart';
 import 'package:water/screens/homescreen.dart';
+import 'package:water/screens/homescreenPrac.dart';
 import 'package:water/screens/profilescreen.dart';
 
 class NavBar extends StatefulWidget {
@@ -18,7 +20,8 @@ class _NavBarState extends State<NavBar> {
    int selectedIndex = 0;
   final pagescreens = [
     CookBookPrac(),
-    HomeScreen(),
+    HomeScreenPrac(),
+    Fav(),
     Profile(),
   ];
   @override
@@ -43,7 +46,8 @@ class _NavBarState extends State<NavBar> {
           items: [
             buildBottomNavigationBarItem(Icons.menu_book_outlined, 0),
             buildBottomNavigationBarItem(Icons.kitchen_outlined, 1),
-             buildBottomNavigationBarItem(Icons.face_outlined, 2),
+            buildBottomNavigationBarItem(Icons.favorite, 2),
+             buildBottomNavigationBarItem(Icons.face_outlined, 3),
            ],
          ),
        ),

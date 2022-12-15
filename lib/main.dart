@@ -1,12 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:water/components/bottomnavbar.dart';
 import 'package:water/components/constnt.dart';
 import 'package:water/firebase_options.dart';
-import 'package:water/screens/cookbook.dart';
-import 'package:water/screens/homescreen.dart';
 import 'package:water/screens/login.dart';
 import 'package:water/screens/onboard.dart';
 
@@ -29,15 +28,96 @@ class MyApp extends StatelessWidget {
       MaterialApp(
         
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
+        title: 'CookBook',
         theme: ThemeData(
           primaryColor: cPrimaryColor, 
           fontFamily: "Lato"
           ),
-        home:  MyHomePage()
+        home:  SplashScreen()
       );
   }
 }
+
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+
+   void initState() {
+    super.initState();
+
+    Future.delayed(Duration(seconds: 7)).then((value) {
+      Navigator.of(context)
+          .pushReplacement(CupertinoPageRoute(builder: (ctx) => OnBoard()));
+    });
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: cPrimaryColor,
+      body: ListView(
+      
+        children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Positioned(
+                top: 100,
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Container(
+                    height: 500,
+                    width: 500,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage('assets/images/loading.jpg'
+                        ),
+                        
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 230,
+              ),
+               Column(
+                
+                      children: [
+                     
+                        Positioned(
+                          top: 300,
+                          child: SpinKitSquareCircle(
+                              size: 70.0,
+                              itemBuilder: (context, index) {
+                                final colors = [cAccentColor];
+                                final color = colors[index % colors.length];
+                                      
+                                return DecoratedBox(
+                                  decoration: BoxDecoration(
+                                    color: color,
+                                    shape: BoxShape.rectangle,
+                                  ),
+                                );
+                              }),
+                        ),
+                       
+                      ],
+                    ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({
     Key? key,

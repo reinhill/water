@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:water/components/constnt.dart';
+import 'package:water/main.dart';
 import 'package:water/screens/login.dart';
 import 'package:water/screens/loginsignup.dart';
 
@@ -106,7 +107,7 @@ class _OnBoardState extends State<OnBoard> {
                   onPressed: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => LoginS(),
+                        builder: (context) => MyHomePage(),
                       ),
                     );
                   },

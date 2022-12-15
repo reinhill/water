@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:water/components/constnt.dart';
 import 'package:water/components/users.dart';
@@ -28,11 +31,11 @@ class _CookBookPracState extends State<CookBookPrac> {
         //     color: cLightbackColor,
         //   ),
         //   onPressed: () {
-              
+
         //   },
         // ),
         title: const Text(
-          'Cookbook',
+          'My Cookbook',
           style: TextStyle(
             fontWeight: FontWeight.w900,
             color: cLightbackColor,
@@ -46,18 +49,17 @@ class _CookBookPracState extends State<CookBookPrac> {
               color: cLightbackColor,
             ),
             onPressed: () {
-               Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => AddRecipePrac(),
-                          ),
-                        );
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => AddRecipePrac(),
+                ),
+              );
             },
           ),
         ],
         elevation: 0,
         centerTitle: true,
       ),
-      
       body: StreamBuilder<List<NewRecipePost>>(
         stream: readNewRecipePost(),
         builder: (context, snapshot) {
@@ -76,10 +78,10 @@ class _CookBookPracState extends State<CookBookPrac> {
           }
         },
       ),
-     
     );
   }
- Widget newrecipepost(NewRecipePost newRecipe) => GestureDetector(
+
+  Widget newrecipepost(NewRecipePost newRecipe) => GestureDetector(
         onTap: () {
           Navigator.push(
             context,
@@ -94,26 +96,21 @@ class _CookBookPracState extends State<CookBookPrac> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             builRecipe(newRecipe),
-             
           ],
         ),
       );
-  
 
-  Widget builRecipe(NewRecipePost newRecipe) =>
-   Container(
+  Widget builRecipe(NewRecipePost newRecipe) => Container(
         height: 240,
         child: Stack(
           clipBehavior: Clip.none,
           children: [
             Positioned(
               top: -12.0,
-              left:-5.0,
+              left: -5.0,
               child: Image.asset("assets/images/coriander.png",
                   height: 95, fit: BoxFit.contain),
             ),
-            
-            
             Positioned(
                 top: 25,
                 left: 25,
@@ -148,17 +145,15 @@ class _CookBookPracState extends State<CookBookPrac> {
                     height: 180,
                     width: 150,
                     decoration: BoxDecoration(
-                      
-                        borderRadius: BorderRadius.circular(10.0),
-                        image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: NetworkImage(newRecipe.newrecipeimg)
-                            ),
-                            ),
+                      borderRadius: BorderRadius.circular(10.0),
+                      image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: NetworkImage(newRecipe.newrecipeimg)),
+                    ),
                   ),
                 )),
             Positioned(
-                top: 55,
+                top: 45,
                 left: 210,
                 child: Container(
                   width: 150,
@@ -168,6 +163,8 @@ class _CookBookPracState extends State<CookBookPrac> {
                     children: [
                       Text(
                         newRecipe.newrecipename,
+                        overflow: TextOverflow.ellipsis,
+                         maxLines: 2,
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 20,
@@ -207,7 +204,7 @@ class _CookBookPracState extends State<CookBookPrac> {
                                     fontWeight: FontWeight.w500),
                                 textAlign: TextAlign.end,
                               ),
-                               Text(
+                              Text(
                                 " minutes",
                                 style: TextStyle(
                                     color: cnewLightGreyColor,
@@ -256,36 +253,56 @@ class _CookBookPracState extends State<CookBookPrac> {
                                 textAlign: TextAlign.end,
                               ),
                             ],
+                             
                           ),
+                         
                         ],
+                        
                       ),
-                      
+                      SizedBox(
+                        height: 5,
+                      ),
+                      starsyellow(newRecipe.rate),
                     ],
                   ),
                 ))
           ],
         ),
       );
+      Widget starsyellow(i) => Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          for (int x = 0; x < i; x++)
+            const Icon(
+              Icons.star,
+              color: Colors.yellow,
+              size: 20,
+            ),
+          for (int y = 0; y < 5 - i; y++)
+            const Icon(
+              Icons.star,
+              color: Colors.grey,
+              size: 20,
+            ),
+        ],
+      );
 
-      Stream<List<NewRecipePost>> readNewRecipePost() =>
-      FirebaseFirestore.instance.collection('NewRecipe').snapshots().map(
-            (snapshot) => snapshot.docs
-                .map(
-                  (doc) => NewRecipePost.fromJson(
-                    doc.data(),
-                  ),
-                )
-                .toList(),
-          );
-    
-    updateLike(String id, bool status) {
-    final docUser = FirebaseFirestore.instance.collection('NewRecipePost').doc(id);
-    docUser.update({
-      'isLiked': status,
-    });
-  }
+  final users = FirebaseAuth.instance.currentUser!;
+  Stream<List<NewRecipePost>> readNewRecipePost() => FirebaseFirestore.instance
+      .collection('NewRecipe')
+      .doc(users.uid)
+      .collection('userNewRecipePost')
+      .where('userId', isEqualTo: users.uid)
+      .snapshots()
+      .map(
+        (snapshot) => snapshot.docs
+            .map(
+              (doc) => NewRecipePost.fromJson(
+                doc.data(),
+              ),
+            )
+            .toList(),
+      );
+
+ 
 }
-
-
-  
-

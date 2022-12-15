@@ -5,8 +5,8 @@ import 'package:water/components/constnt.dart';
 
 class FoodDetails extends StatefulWidget {
   final int index;
-  final String image, name, time, level;
-  FoodDetails(this.index, this.image, this.name, this.time, this.level);
+  final String image, name, time, level, ingredients, procedure;
+  FoodDetails(this.index, this.image, this.name, this.time, this.level, this.ingredients, this.procedure);
 
   @override
   State<FoodDetails> createState() => _FoodDetailsState();
@@ -30,7 +30,7 @@ class _FoodDetailsState extends State<FoodDetails> {
             Padding(
               padding: const EdgeInsets.fromLTRB(32.0, 64.0, 32.0, 0.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   GestureDetector(
                     onTap: () => Navigator.of(context).pop(),
@@ -47,27 +47,7 @@ class _FoodDetailsState extends State<FoodDetails> {
                       ),
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      padding: EdgeInsets.all(2),
-                      decoration: BoxDecoration(
-                        color: liked ? Colors.red.withOpacity(.5) : cLightGreyColor,
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                      child: IconButton(
-                        icon: liked
-                            ? (Icon(
-                                Icons.favorite,
-                                color: Colors.red,
-                              ))
-                            : (Icon(Icons.favorite_border)),
-                        onPressed: () {
-                          setState(() => liked = !liked);
-                        },
-                      ),
-                    ),
-                  )
+                 
                 ],
               ),
             ),
@@ -76,7 +56,7 @@ class _FoodDetailsState extends State<FoodDetails> {
                 Hero(
                   
                   tag: "tag${widget.index}",
-                  child: Image.asset(widget.image, fit: BoxFit.contain,
+                  child: Image.asset(widget.image, fit: BoxFit.fill,
                    ),
                 ),
                 Positioned(
@@ -327,16 +307,17 @@ class _FoodDetailsState extends State<FoodDetails> {
                       height: 32.0,
                     ),
                     selectedIndex ==0?   Container(
-                      height: 150.0,
+                     height: 300.0,
+                  width: 400,
                       margin: EdgeInsets.symmetric(horizontal: 16.0),
                        padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
                       decoration: BoxDecoration(
                         color: cPrimaryColor,
                         borderRadius: BorderRadius.circular(24.0),
                       ),
-                      child: Text(example,
+                      child: Text("${widget.procedure}",
                       style: TextStyle(
-                        fontSize: 15.0,
+                        fontSize: 18.0,
                         color: cAccentColor,
                         fontWeight: FontWeight.w400
                       ),
@@ -344,16 +325,17 @@ class _FoodDetailsState extends State<FoodDetails> {
                     ) 
                     : 
                     Container(
-                      height: 170.0,
+                      height: 300.0,
+                  width: 400,
                       margin: EdgeInsets.symmetric(horizontal: 16.0),
                        padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
                       decoration: BoxDecoration(
                         color: cPrimaryColor,
                         borderRadius: BorderRadius.circular(24.0),
                       ),
-                      child:  Text(ingredients,
+                      child:  Text("${widget.ingredients}",
                       style: TextStyle(
-                        fontSize: 15.0,
+                        fontSize: 18.0,
                         color: cAccentColor,
                         fontWeight: FontWeight.w400
                       ),
@@ -364,21 +346,6 @@ class _FoodDetailsState extends State<FoodDetails> {
 
 
 
-                    SizedBox(
-                      height: 24.0,
-                    ),
-                    Column(children: [
-                      Icon(Icons.keyboard_arrow_up,
-                      size:28.0,
-                      color: cLightbackColor,),
-                      Text("Show More", 
-                      style: TextStyle(
-                        fontSize: 14.0,
-                        color: cLightbackColor,
-                        fontWeight: FontWeight.w600
-
-                      ),)
-                    ],)
       
       
                   ],

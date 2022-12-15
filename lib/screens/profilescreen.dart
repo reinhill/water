@@ -1,4 +1,7 @@
+
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:water/components/bottomnavbar.dart';
@@ -14,6 +17,17 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  PlatformFile? pickedFile;
+
+  Future selectFile() async {
+    final result = await FilePicker.platform.pickFiles();
+    if (result == null) return;
+
+    setState(() {
+      pickedFile = result.files.first;
+    });
+  }
+  
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser!;
 
@@ -41,21 +55,7 @@ class _ProfileState extends State<Profile> {
             letterSpacing: 1,
           ),
         ),
-        actions: [
-          IconButton(
-            icon: Icon(
-              Icons.edit,
-              color: cLightbackColor,
-            ),
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => UpdateProfile(),
-                ),
-              );
-            },
-          ),
-        ],
+        
         elevation: 0,
         centerTitle: true,
       ),
@@ -75,6 +75,35 @@ class _ProfileState extends State<Profile> {
                             child: ElevatedButton(
                               onPressed: () {
                                  FirebaseAuth.instance.signOut();
+                                 final snackbar = SnackBar(
+                                  duration: Duration(seconds: 2),
+                                  margin: const EdgeInsets.only(bottom: 0),
+                                  behavior: SnackBarBehavior.floating,
+                                  backgroundColor: Colors.white,
+                                  elevation: 0,
+                                  content: Container(
+                                    padding: EdgeInsets.all(5),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(30),
+                                      color: Colors.white
+                                    ),
+                                    child: Row (
+                                      children: [
+                                      Expanded (
+                                        child: Text ('Log Out Successfully!',style: TextStyle(color: cAccentColor,fontSize: 15)),
+                                      ),
+                                      SizedBox(width:5),
+
+                                      Icon(Icons.verified,
+                                      color: cAccentColor,
+                                      ),
+                                      ]
+                                      ),
+                                    
+                                  )
+                                    
+                                  );
+                                  ScaffoldMessenger.of(context).showSnackBar(snackbar);
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: cAccentColor,
@@ -134,13 +163,42 @@ class _ProfileState extends State<Profile> {
                           SizedBox(
                             width: 13,
                           ),
-                          Container(
-                            height: 200,
-                            child: CircleAvatar(
-                              maxRadius: 60.0,
-                              minRadius: 60.0,
-                              backgroundColor: cAccentColor,
-                              backgroundImage: NetworkImage(user.image )
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => UpdateProfile( user: user,),
+                              ),
+                            );
+                            },
+                            child: Stack(
+                              clipBehavior: Clip.none,
+                              children: 
+                                [
+                                  Container(
+                                  height: 200,
+                                  child: CircleAvatar(
+                                    maxRadius: 60.0,
+                                    minRadius: 60.0,
+                                    backgroundColor: cAccentColor,
+                                    backgroundImage: NetworkImage(user.image)
+                                  ),
+                                ),
+                                Positioned(
+                                  top: 80,
+                                  left: 90,
+                                  child: Container(
+                                    height: 35,
+                                    width: 35,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(30.0),
+                                    
+                                      color: cAccentColor
+                                    ),
+                                    child: Icon(Icons.photo_size_select_actual_rounded, color: Colors.white, size: 18,),
+                                  ),
+                                )
+                              ],
                             ),
                           ),
                           SizedBox(
@@ -167,7 +225,38 @@ class _ProfileState extends State<Profile> {
                                       color: cLightbackColor,
                                       fontSize: 17,
                                       fontWeight: FontWeight.normal),
-                                ),
+                                ),SizedBox(
+                            height: 10,
+                          ),
+
+                                GestureDetector(
+                                  onTap: () {
+                                  Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => UpdateProfile(user: user,
+                                          ),
+                                        ),
+                                      );
+                                  },
+                                  child: Container(
+                                    height: 34,
+                                    width: 150,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(30),
+                                      color: cAccentColor
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text("Edit Profile",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 15
+                                      ),
+                                      textAlign: TextAlign.center),
+                                    ),
+                                  ),
+                                )
                                
                               ],
                             ),

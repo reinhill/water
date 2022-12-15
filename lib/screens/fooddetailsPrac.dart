@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:water/components/constnt.dart';
@@ -18,6 +19,7 @@ class FoodDetailsPrac extends StatefulWidget {
 }
 
 class _FoodDetailsPracState extends State<FoodDetailsPrac> {
+  final users = FirebaseAuth.instance.currentUser!;
   bool liked = false;
   int selectedIndex = 0;
   List tabs = ["Procedure", "Ingredients"];
@@ -165,7 +167,7 @@ class _FoodDetailsPracState extends State<FoodDetailsPrac> {
                     height: 10.0,
                   ),
                   Text(
-                    "5.0",
+                  newrecipePost.rate.toString(),
                     style: TextStyle(
                         fontSize: 16.0,
                         color: cLightbackColor,
@@ -314,7 +316,7 @@ class _FoodDetailsPracState extends State<FoodDetailsPrac> {
                     child: Text(
                       newrecipePost.newrecipeprocedure,
                       style: TextStyle(
-                          fontSize: 15.0,
+                          fontSize: 18.0,
                           color: cAccentColor,
                           fontWeight: FontWeight.w400),
                     ),
@@ -334,7 +336,7 @@ class _FoodDetailsPracState extends State<FoodDetailsPrac> {
                     child: Text(
                       newrecipePost.newrecipeingredients,
                       style: TextStyle(
-                          fontSize: 15.0,
+                          fontSize: 18.0,
                           color: cAccentColor,
                           fontWeight: FontWeight.w400),
                     ),
@@ -361,7 +363,7 @@ class _FoodDetailsPracState extends State<FoodDetailsPrac> {
                   Navigator.push<dynamic>(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => Updatefooddetails(newrecipePost: newrecipePost),
+                      builder: (context) => FoodUpdate(newrecipePost: newrecipePost),
                     ),
                   );
                 },
@@ -385,7 +387,10 @@ class _FoodDetailsPracState extends State<FoodDetailsPrac> {
               GestureDetector(
                 onTap: () {
                    _showActionSheet(context, newrecipePost.newrecipepost_id);
+                    
+                   
                 },
+                
                 child: Container(
                   height: 55.0,
                   width: 180,
@@ -424,22 +429,16 @@ class _FoodDetailsPracState extends State<FoodDetailsPrac> {
                       fit: BoxFit.cover)),
             ),
             Positioned(
-              top: 25.0,
+              top: -1.0,
               right: -60.0,
               child: Image.asset("assets/images/coriander.png",
                   height: 120, fit: BoxFit.contain),
             ),
             Positioned(
-              top: 150.0,
-              left: -45.0,
+              top: 350.0,
+              left: -38.0,
               child: Image.asset("assets/images/coriander.png",
                   height: 85, fit: BoxFit.contain),
-            ),
-            Positioned(
-              top: 340.0,
-              right: -35.0,
-              child: Image.asset("assets/images/coriander.png",
-                  height: 95, fit: BoxFit.contain),
             ),
           ],
         ),
@@ -488,9 +487,73 @@ class _FoodDetailsPracState extends State<FoodDetailsPrac> {
                     if (!newrecipePost.isLiked) {
                       newrecipePost.isLiked = true;
                       updateLike(newrecipePost.newrecipepost_id, true);
+
+                      final snackbar = SnackBar(
+                   duration: Duration(seconds: 1),
+                   margin: const EdgeInsets.only(bottom: 0),
+                   behavior: SnackBarBehavior.floating,
+                   backgroundColor: Colors.transparent,
+                   elevation: 0,
+                   content: Container(
+                     height: 60,
+                    width: 40,
+                    padding: EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      color: cAccentColor
+                    ),
+                     child: Row (
+                      children: [
+                        SizedBox(width: 10),
+                      Expanded (
+                        child: Text ('You liked a recipe!',style: TextStyle(color: Colors.white,fontSize: 15)),
+                      ),
+                      SizedBox(width:5),
+
+                      Icon(Icons.sentiment_very_satisfied,
+                      color: Colors.white,
+                      ),
+                       SizedBox(width: 10),
+                      ]
+                      ),
+                   )
+                   );
+                   ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                      
                     } else {
                       newrecipePost.isLiked = false;
                       updateLike(newrecipePost.newrecipepost_id, false);
+                      final snackbar = SnackBar(
+                   duration: Duration(seconds: 1),
+                   margin: const EdgeInsets.only(bottom: 0),
+                   behavior: SnackBarBehavior.floating,
+                   backgroundColor: Colors.transparent,
+                   elevation: 0,
+                   content: Container(
+                     height: 60,
+                    width: 40,
+                    padding: EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      color: cAccentColor
+                    ),
+                     child: Row (
+                      children: [
+                        SizedBox(width: 10),
+                      Expanded (
+                        child: Text ('You unlike a recipe',style: TextStyle(color: Colors.white,fontSize: 15)),
+                      ),
+                      SizedBox(width:5),
+
+                      Icon(Icons.mood_bad,
+                      color: Colors.white,
+                      ),
+                       SizedBox(width: 10),
+                      ]
+                      ),
+                   )
+                   );
+                   ScaffoldMessenger.of(context).showSnackBar(snackbar);
                     }
                   });
                 },
@@ -503,8 +566,45 @@ class _FoodDetailsPracState extends State<FoodDetailsPrac> {
   }
 
   deleteRecipe(String id) {
-    final docUser = FirebaseFirestore.instance.collection('NewRecipe').doc(id);
+     final docUser = FirebaseFirestore.instance
+    .collection('NewRecipe')
+    .doc(users.uid)
+    .collection('userNewRecipePost')
+    .doc(id);
     docUser.delete();
+    final snackbar = SnackBar(
+                   duration: Duration(seconds: 3),
+                   margin: const EdgeInsets.only(bottom: 0),
+                   behavior: SnackBarBehavior.floating,
+                   backgroundColor: Colors.transparent,
+                   elevation: 0,
+                   content: Container(
+                     height: 60,
+                    width: 40,
+                    padding: EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      color: cAccentColor
+                    ),
+                     child: Row (
+                      children: [
+                        SizedBox(width: 10),
+                      Expanded (
+                        child: Text ('Recipe Deleted successfully',style: TextStyle(color: Colors.white,fontSize: 15)),
+                      ),
+                      SizedBox(width:5),
+
+                      Icon(Icons.delete,
+                      color: Colors.white,
+                      ),
+                       SizedBox(width: 10),
+                      ]
+                      ),
+                    
+                   )
+                    
+                   );
+                   ScaffoldMessenger.of(context).showSnackBar(snackbar);
     Navigator.pop(context);
   }
 
@@ -527,7 +627,7 @@ class _FoodDetailsPracState extends State<FoodDetailsPrac> {
           CupertinoActionSheetAction(
             onPressed: () {
               deleteRecipe(id);
-              Navigator.pop(context);
+               Navigator.pop(context);
             },
             child: const Text('Continue', 
             style: TextStyle(
@@ -545,9 +645,14 @@ class _FoodDetailsPracState extends State<FoodDetailsPrac> {
   }
 
   updateLike(String id, bool status) {
-    final docUser = FirebaseFirestore.instance.collection('NewRecipe').doc(id);
+   final docUser = FirebaseFirestore.instance
+    .collection('NewRecipe')
+    .doc(widget.newrecipePost.userId)
+    .collection('userNewRecipePost')
+    .doc(id);
     docUser.update({
       'isLiked': status,
     });
+     
   }
 }
